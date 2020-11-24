@@ -1,5 +1,5 @@
 ﻿@using Web.Models
-@model Web.Models.OrderViewModel
+@model Web.Models.ReportViewModel
 
 @{
     ViewData["Title"] = "WebReport";
@@ -9,7 +9,7 @@
     <h1 class="display-4">WebReport</h1>
 </div>
 <div>
-    <form method="get" asp-controller="Home" asp-action="GetOrdersByDateFilter">
+    <form method="get" asp-controller="Report" asp-action="GetOrdersByDateFilter">
         @if (Model.DateFrom == DateTime.MinValue)
         {
             <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
@@ -28,7 +28,7 @@
         }
         <p><input type="submit" value="Search" class="btn-dark" /></p>
     </form>
-    <form method="get" asp-controller="Home" asp-action="GetOrdersExcel">
+    <form method="get" asp-controller="Report" asp-action="GetOrdersExcel">
         <p><input type="submit" value="Download" class="btn-dark" /></p>
     </form>
 </div>

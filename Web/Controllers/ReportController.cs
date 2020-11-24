@@ -9,13 +9,13 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class ReportController : Controller
     {
         private readonly IOrderService _orderService;
 
-        private OrderViewModel _model => OrderViewModel.GetInstance();
+        private ReportViewModel _model => ReportViewModel.GetInstance();
 
-        public HomeController(IOrderService orderService)
+        public ReportController(IOrderService orderService)
         {
             _orderService = orderService;
         }

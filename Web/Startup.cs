@@ -41,7 +41,7 @@ namespace Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Report/Error");
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -55,7 +55,7 @@ namespace Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Report}/{action=Index}/{id?}");
             });
         }
     }

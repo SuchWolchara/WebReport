@@ -51,8 +51,8 @@ namespace Domain.Services
         {
             if (id == default)
                 return new OrderEntity();
-
-            return _dbRepository.Get<OrderEntity>(x => x.Id == id).FirstOrDefault();
+            else
+                return _dbRepository.Get<OrderEntity>(x => x.Id == id).FirstOrDefault();
         }
     }
 }
