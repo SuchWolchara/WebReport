@@ -6,7 +6,7 @@ namespace Domain.Services
 {
     public interface IOrderService
     {
-        IEnumerable<OrderEntity> Get(DateTime dateFrom, DateTime dateTo);
-        void Set(OrderEntity order, EntityStates state);
+        List<OrderEntity> Get(DateTime dateFrom, DateTime dateTo);
+        void Set(EntityStates state, Guid id = default, int price = default, DateTime date = default);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using Domain;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,8 @@ namespace Web.Controllers
     {
         private readonly IOrderService _orderService;
 
+        private OrderViewModel _model => OrderViewModel.GetInstance();
+
         public HomeController(IOrderService orderService)
         {
             _orderService = orderService;
@@ -19,18 +22,36 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var model = OrderViewModel.GetInstance();
-            return View(model);
+            return View(_model);
         }
 
         [HttpGet]
         public IActionResult GetOrdersByDateFilter(DateTime dateFrom, DateTime dateTo)
         {
-            var model = OrderViewModel.GetInstance();
-            model.DateFrom = dateFrom;
-            model.DateTo = dateTo;
-            model.Orders = _orderService.Get(dateFrom, dateTo);
-            return RedirectToAction("Index");
+            _model.DateFrom = dateFrom;
+            _model.DateTo = dateTo;
+            return UpdateView();
+        }
+
+        [HttpPost]
+        public IActionResult AddOrder(int price, DateTime date)
+        {
+            _orderService.Set(EntityStates.Insert, price: price, date: date);
+            return UpdateView();
+        }
+
+        [HttpPost]
+        public IActionResult UpdateOrder(Guid id, int price, DateTime date)
+        {
+            _orderService.Set(EntityStates.Update, id, price, date);
+            return UpdateView();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteOrder(Guid id)
+        {
+            _orderService.Set(EntityStates.Delete, id);
+            return UpdateView();
         }
 
         [HttpGet]
@@ -38,12 +59,11 @@ namespace Web.Controllers
         {
             using (var workbook = new XLWorkbook())
             {
-                var model = OrderViewModel.GetInstance();
                 var worksheet = workbook.Worksheets.Add("Orders");
                 var currentRow = 2;
                 worksheet.Cell(currentRow, 2).Value = "Order price";
                 worksheet.Cell(currentRow, 3).Value = "Order date";
-                foreach (var order in model.Orders)
+                foreach (var order in _model.Orders)
                 {
                     currentRow++;
                     worksheet.Cell(currentRow, 2).Value = order.Price;
@@ -67,6 +87,12 @@ namespace Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private IActionResult UpdateView()
+        {
+            _model.Orders = _orderService.Get(_model.DateFrom, _model.DateTo);
+            return RedirectToAction("Index");
         }
     }
 }

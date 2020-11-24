@@ -1,13 +1,13 @@
 ﻿using DAL.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Web.Models
 {
     public class OrderViewModel
     {
         private static OrderViewModel _instance;
+
         private OrderViewModel() { }
 
         public static OrderViewModel GetInstance()
@@ -18,7 +18,7 @@ namespace Web.Models
             return _instance;
         }
 
-        public IEnumerable<OrderEntity> Orders { get; set; } = Enumerable.Empty<OrderEntity>();
+        public List<OrderEntity> Orders { get; set; } = new List<OrderEntity>();
 
         public DateTime DateFrom { get; set; }
 

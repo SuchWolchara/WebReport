@@ -15,20 +15,26 @@ namespace Domain.Services
             _dbRepository = dbRepository;
         }
 
-        public IEnumerable<OrderEntity> Get(DateTime dateFrom, DateTime dateTo)
+        public List<OrderEntity> Get(DateTime dateFrom, DateTime dateTo)
         {
-            dateTo = dateTo == DateTime.MinValue ? DateTime.MaxValue : dateTo;
-            return _dbRepository.Get<OrderEntity>(x => x.Date >= dateFrom && x.Date <= dateTo).ToList();
+            dateTo = dateTo == default ? DateTime.MaxValue : dateTo;
+            return _dbRepository.Get<OrderEntity>(x => x.Date >= dateFrom && x.Date <= dateTo).OrderBy(x => x.Date).ToList();
         }
 
-        public void Set(OrderEntity order, EntityStates state)
+        public void Set(EntityStates state, Guid id = default, int price = default, DateTime date = default)
         {
+            var order = GetOrCreateOrder(id);
+
             switch (state)
             {
                 case EntityStates.Insert:
+                    order.Price = price;
+                    order.Date = date;
                     _dbRepository.Add(order);
                     break;
                 case EntityStates.Update:
+                    order.Price = price;
+                    order.Date = date;
                     _dbRepository.Update(order);
                     break;
                 case EntityStates.Delete:
@@ -39,6 +45,14 @@ namespace Domain.Services
             }
 
             _dbRepository.SaveChanges();
+        }
+
+        private OrderEntity GetOrCreateOrder(Guid id)
+        {
+            if (id == default)
+                return new OrderEntity();
+
+            return _dbRepository.Get<OrderEntity>(x => x.Id == id).FirstOrDefault();
         }
     }
 }
