@@ -1,0 +1,54 @@
+﻿@using Web.Models
+@model Web.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "WebReport";
+}
+
+<div class="text-center">
+    <h1 class="display-4">WebReport</h1>
+</div>
+<div>
+    <form method="get" asp-controller="Home" asp-action="GetOrdersByDateFilter">
+        @if (Model.DateFrom == DateTime.MinValue)
+        {
+            <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
+        }
+        else
+        {
+            <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.DateFrom.ToString("yyyy-MM-dd")></p>
+        }
+        @if (Model.DateTo == DateTime.MinValue)
+        {
+            <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
+        }
+        else
+        {
+            <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.DateTo.ToString("yyyy-MM-dd")></p>
+        }
+        <p><input type="submit" value="Search" class="btn-dark" /></p>
+    </form>
+    <form method="get" asp-controller="Home" asp-action="GetOrdersExcel">
+        <p><input type="submit" value="Download" class="btn-dark" /></p>
+    </form>
+</div>
+<div class="text-center">
+    <h3>Orders</h3>
+    <table class="table-bordered" align="center" cellpadding="4" >
+        <thead>
+            <tr>
+                <th>Order price</th>
+                <th>Order date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.Price</td>
+                    <td>@order.Date.ToString("dd.MM.yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
