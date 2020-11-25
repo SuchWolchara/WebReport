@@ -1,4 +1,4 @@
-﻿using DAL.Entities;
+﻿using DAL.IEntities;
 using System;
 using System.Linq.Expressions;
 

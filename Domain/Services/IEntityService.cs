@@ -1,4 +1,4 @@
-﻿using DAL.Entities;
+﻿using DAL.IEntities;
 using Domain.Filters;
 using System.Collections.Generic;
 

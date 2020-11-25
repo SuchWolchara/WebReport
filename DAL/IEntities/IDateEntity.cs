@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DAL.Entities
+namespace DAL.IEntities
 {
     public interface IDateEntity : IEntity
     {
