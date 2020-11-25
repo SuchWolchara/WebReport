@@ -13,8 +13,7 @@ namespace Web.Controllers
     public class ReportController : Controller
     {
         private readonly IEntityService<OrderEntity> _orderService;
-
-        private ReportViewModel _model => ReportViewModel.GetInstance();
+        private readonly ReportViewModel _model = ReportViewModel.Instance;
 
         public ReportController(IEntityService<OrderEntity> orderService)
         {
