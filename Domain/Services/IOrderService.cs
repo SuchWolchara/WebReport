@@ -1,6 +1,5 @@
 ﻿using DAL.Entities;
 using Domain.Filters;
-using System;
 using System.Collections.Generic;
 
 namespace Domain.Services
@@ -9,7 +8,7 @@ namespace Domain.Services
     {
         List<OrderEntity> Get();
         List<OrderEntity> GetByFilter(IFilter<OrderEntity> filter);
-        void Set(EntityStates state, Guid id = default, int price = default, DateTime date = default);
+        void Set(EntityStates state, OrderEntity order);
         void CreateTestData();
     }
 }

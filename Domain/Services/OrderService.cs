@@ -26,20 +26,14 @@ namespace Domain.Services
             return _dbRepository.Get(filter.GetSelector()).OrderBy(x => x.Date).ToList();
         }
 
-        public void Set(EntityStates state, Guid id = default, int price = default, DateTime date = default)
+        public void Set(EntityStates state, OrderEntity order)
         {
-            var order = _dbRepository.Get<OrderEntity>(x => x.Id == id).FirstOrDefault();
-
             switch (state)
             {
                 case EntityStates.Insert:
-                    order.Price = price;
-                    order.Date = date;
                     _dbRepository.Add(order);
                     break;
                 case EntityStates.Update:
-                    order.Price = price;
-                    order.Date = date;
                     _dbRepository.Update(order);
                     break;
                 case EntityStates.Delete:

@@ -36,21 +36,28 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult AddOrder(int price, DateTime date)
         {
-            _orderService.Set(EntityStates.Insert, price: price, date: date);
+            var order = _model.GetOrCreateOrder();
+            order.Price = price;
+            order.Date = date;
+            _orderService.Set(EntityStates.Insert, order);
             return UpdateView();
         }
 
         [HttpPost]
         public IActionResult UpdateOrder(Guid id, int price, DateTime date)
         {
-            _orderService.Set(EntityStates.Update, id, price, date);
+            var order = _model.GetOrCreateOrder(id);
+            order.Price = price;
+            order.Date = date;
+            _orderService.Set(EntityStates.Update, order);
             return UpdateView();
         }
 
         [HttpPost]
         public IActionResult DeleteOrder(Guid id)
         {
-            _orderService.Set(EntityStates.Delete, id);
+            var order = _model.GetOrCreateOrder(id);
+            _orderService.Set(EntityStates.Delete, order);
             return UpdateView();
         }
 
