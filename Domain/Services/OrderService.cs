@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Domain.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService : IEntityService<OrderEntity>
     {
         private readonly IDbRepository _dbRepository;
 
@@ -16,7 +16,7 @@ namespace Domain.Services
             _dbRepository = dbRepository;
         }
 
-        public List<OrderEntity> Get()
+        public List<OrderEntity> GetAll()
         {
             return _dbRepository.Get<OrderEntity>().OrderBy(x => x.Date).ToList();
         }
@@ -26,18 +26,18 @@ namespace Domain.Services
             return _dbRepository.Get(filter.GetSelector()).OrderBy(x => x.Date).ToList();
         }
 
-        public void Set(EntityStates state, OrderEntity order)
+        public void Set(EntityStates state, OrderEntity entity)
         {
             switch (state)
             {
                 case EntityStates.Insert:
-                    _dbRepository.Add(order);
+                    _dbRepository.Add(entity);
                     break;
                 case EntityStates.Update:
-                    _dbRepository.Update(order);
+                    _dbRepository.Update(entity);
                     break;
                 case EntityStates.Delete:
-                    _dbRepository.Delete(order);
+                    _dbRepository.Delete(entity);
                     break;
                 default:
                     break;

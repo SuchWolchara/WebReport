@@ -1,4 +1,5 @@
 using DAL;
+using DAL.Entities;
 using DAL.Repositories;
 using Domain.Services;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +29,7 @@ namespace Web
             });
 
             services.AddScoped<IDbRepository, DbRepository>();
-            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IEntityService<OrderEntity>, OrderService>();
 
             services.AddControllersWithViews();
         }

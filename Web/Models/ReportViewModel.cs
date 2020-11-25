@@ -1,8 +1,6 @@
 ﻿using DAL.Entities;
 using Domain.Filters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Web.Models
 {
@@ -16,6 +14,10 @@ namespace Web.Models
             DateFilter = new DateFilter<OrderEntity>();
         }
 
+        public List<OrderEntity> Orders { get; set; }
+
+        public DateFilter<OrderEntity> DateFilter { get; set; }
+
         public static ReportViewModel GetInstance()
         {
             if (_instance == null)
@@ -23,14 +25,5 @@ namespace Web.Models
 
             return _instance;
         }
-
-        public OrderEntity GetOrCreateOrder(Guid id = default)
-        {
-            return Orders.FirstOrDefault(x => x.Id == id);
-        }
-
-        public List<OrderEntity> Orders { get; set; }
-
-        public DateFilter<OrderEntity> DateFilter { get; set; }
     }
 }

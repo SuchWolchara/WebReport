@@ -1,8 +1,9 @@
 ﻿using ClosedXML.Excel;
+using DAL.Entities;
 using Domain;
+using Domain.Filters;
 using Domain.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Diagnostics;
 using System.IO;
 using Web.Models;
@@ -11,11 +12,11 @@ namespace Web.Controllers
 {
     public class ReportController : Controller
     {
-        private readonly IOrderService _orderService;
+        private readonly IEntityService<OrderEntity> _orderService;
 
         private ReportViewModel _model => ReportViewModel.GetInstance();
 
-        public ReportController(IOrderService orderService)
+        public ReportController(IEntityService<OrderEntity> orderService)
         {
             _orderService = orderService;
         }
@@ -26,37 +27,29 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetOrdersByDateFilter(DateTime dateFrom, DateTime dateTo)
+        public IActionResult GetOrdersByDateFilter(DateFilter<OrderEntity> filter)
         {
-            _model.DateFilter.DateFrom = dateFrom;
-            _model.DateFilter.DateTo = dateTo;
+            _model.DateFilter = filter;
             return UpdateView();
         }
 
         [HttpPost]
-        public IActionResult AddOrder(int price, DateTime date)
+        public IActionResult AddOrder(OrderEntity order)
         {
-            var order = _model.GetOrCreateOrder();
-            order.Price = price;
-            order.Date = date;
             _orderService.Set(EntityStates.Insert, order);
             return UpdateView();
         }
 
         [HttpPost]
-        public IActionResult UpdateOrder(Guid id, int price, DateTime date)
+        public IActionResult UpdateOrder(OrderEntity order)
         {
-            var order = _model.GetOrCreateOrder(id);
-            order.Price = price;
-            order.Date = date;
             _orderService.Set(EntityStates.Update, order);
             return UpdateView();
         }
 
         [HttpPost]
-        public IActionResult DeleteOrder(Guid id)
+        public IActionResult DeleteOrder(OrderEntity order)
         {
-            var order = _model.GetOrCreateOrder(id);
             _orderService.Set(EntityStates.Delete, order);
             return UpdateView();
         }
