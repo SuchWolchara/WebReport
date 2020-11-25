@@ -55,7 +55,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetOrdersExcel()
+        public IActionResult GetReportExcel()
         {
             using (var workbook = new XLWorkbook())
             {
@@ -78,7 +78,7 @@ namespace Web.Controllers
                     return File(
                         content,
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "orders.xlsx");
+                        "report.xlsx");
                 }
             }
         }
