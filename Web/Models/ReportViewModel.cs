@@ -1,5 +1,5 @@
 ﻿using DAL.Entities;
-using System;
+using Domain.Filters;
 using System.Collections.Generic;
 
 namespace Web.Models
@@ -11,6 +11,7 @@ namespace Web.Models
         private ReportViewModel() 
         {
             Orders = new List<OrderEntity>();
+            Filter = new DateFilter();
         }
 
         public static ReportViewModel GetInstance()
@@ -23,8 +24,6 @@ namespace Web.Models
 
         public List<OrderEntity> Orders { get; set; }
 
-        public DateTime DateFrom { get; set; }
-
-        public DateTime DateTo { get; set; }
+        public DateFilter Filter { get; set; }
     }
 }

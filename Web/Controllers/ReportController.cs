@@ -28,8 +28,8 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult GetOrdersByDateFilter(DateTime dateFrom, DateTime dateTo)
         {
-            _model.DateFrom = dateFrom;
-            _model.DateTo = dateTo;
+            _model.Filter.DateFrom = dateFrom;
+            _model.Filter.DateTo = dateTo;
             return UpdateView();
         }
 
@@ -83,6 +83,13 @@ namespace Web.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult CreateTestData()
+        {
+            _orderService.CreateTestData();
+            return UpdateView();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -91,7 +98,7 @@ namespace Web.Controllers
 
         private IActionResult UpdateView()
         {
-            _model.Orders = _orderService.Get(_model.DateFrom, _model.DateTo);
+            _model.Orders = _orderService.Get(_model.Filter);
             return RedirectToAction("Index");
         }
     }

@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using DAL.Repositories;
+using Domain.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,14 @@ namespace Domain.Services
             _dbRepository = dbRepository;
         }
 
-        public List<OrderEntity> Get(DateTime dateFrom, DateTime dateTo)
+        public List<OrderEntity> Get(DateFilter filter = default)
         {
-            dateTo = dateTo == default ? DateTime.MaxValue : dateTo;
-            return _dbRepository.Get<OrderEntity>(x => x.Date >= dateFrom && x.Date <= dateTo).OrderBy(x => x.Date).ToList();
+            return _dbRepository.Get<OrderEntity>(x => x.Date.Date >= filter.DateFrom && x.Date.Date <= filter.DateTo).OrderBy(x => x.Date).ToList();
         }
 
         public void Set(EntityStates state, Guid id = default, int price = default, DateTime date = default)
         {
-            var order = GetOrCreateOrder(id);
+            var order = _dbRepository.Get<OrderEntity>(x => x.Id == id).FirstOrDefault();
 
             switch (state)
             {
@@ -47,12 +47,21 @@ namespace Domain.Services
             _dbRepository.SaveChanges();
         }
 
-        private OrderEntity GetOrCreateOrder(Guid id)
+        public void CreateTestData()
         {
-            if (id == default)
-                return new OrderEntity();
-            else
-                return _dbRepository.Get<OrderEntity>(x => x.Id == id).FirstOrDefault();
+            var oldData = _dbRepository.GetAll<OrderEntity>();
+            var newData = new List<OrderEntity>();
+            for (int i = 0; i < 100; i++)
+            {
+                newData.Add(new OrderEntity()
+                {
+                    Price = (i + 1) * 1000,
+                    Date = DateTime.Today.AddDays(-(i * 2))
+                });
+            }
+            _dbRepository.RemoveRange(oldData);
+            _dbRepository.AddRange(newData);
+            _dbRepository.SaveChanges();
         }
     }
 }

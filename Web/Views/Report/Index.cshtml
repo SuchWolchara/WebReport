@@ -10,26 +10,29 @@
 </div>
 <div>
     <form method="get" asp-controller="Report" asp-action="GetOrdersByDateFilter">
-        @if (Model.DateFrom == DateTime.MinValue)
+        @if (Model.Filter.DateFrom == DateTime.MinValue.Date)
         {
             <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
         }
         else
         {
-            <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.DateFrom.ToString("yyyy-MM-dd")></p>
+            <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.Filter.DateFrom.ToString("yyyy-MM-dd")></p>
         }
-        @if (Model.DateTo == DateTime.MinValue)
+        @if (Model.Filter.DateTo == DateTime.MaxValue.Date)
         {
             <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
         }
         else
         {
-            <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.DateTo.ToString("yyyy-MM-dd")></p>
+            <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.Filter.DateTo.ToString("yyyy-MM-dd")></p>
         }
         <p><input type="submit" value="Search" class="btn-dark" /></p>
     </form>
     <form method="get" asp-controller="Report" asp-action="GetReportExcel">
         <p><input type="submit" value="Download" class="btn-dark" /></p>
+    </form>
+    <form method="post" asp-controller="Report" asp-action="CreateTestData">
+        <p><input type="submit" value="Create test data" class="btn-dark" /></p>
     </form>
 </div>
 <div class="text-center">
