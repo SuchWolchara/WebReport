@@ -11,7 +11,7 @@ namespace Web.Models
         private ReportViewModel() 
         {
             Orders = new List<OrderEntity>();
-            Filter = new DateFilter();
+            DateFilter = new DateFilter<OrderEntity>();
         }
 
         public static ReportViewModel GetInstance()
@@ -24,6 +24,6 @@ namespace Web.Models
 
         public List<OrderEntity> Orders { get; set; }
 
-        public DateFilter Filter { get; set; }
+        public DateFilter<OrderEntity> DateFilter { get; set; }
     }
 }

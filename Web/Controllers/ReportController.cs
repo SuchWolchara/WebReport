@@ -28,8 +28,8 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult GetOrdersByDateFilter(DateTime dateFrom, DateTime dateTo)
         {
-            _model.Filter.DateFrom = dateFrom;
-            _model.Filter.DateTo = dateTo;
+            _model.DateFilter.DateFrom = dateFrom;
+            _model.DateFilter.DateTo = dateTo;
             return UpdateView();
         }
 
@@ -98,7 +98,7 @@ namespace Web.Controllers
 
         private IActionResult UpdateView()
         {
-            _model.Orders = _orderService.Get(_model.Filter);
+            _model.Orders = _orderService.GetByFilter(_model.DateFilter);
             return RedirectToAction("Index");
         }
     }

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DAL.Entities;
+using System;
+using System.Linq.Expressions;
 
 namespace Domain.Filters
 {
-    public class DateFilter
+    public class DateFilter<T> : IFilter<T> where T: class, IDateEntity
     {
         private DateTime _dateFrom;
         private DateTime _dateTo;
@@ -23,6 +25,11 @@ namespace Domain.Filters
         {
             get => _dateTo.Date;
             set => _dateTo = value == default ? DateTime.MaxValue : value;
+        }
+
+        public Expression<Func<T, bool>> GetSelector()
+        {
+            return x => x.Date.Date >= DateFrom && x.Date.Date <= DateTo;
         }
     }
 }

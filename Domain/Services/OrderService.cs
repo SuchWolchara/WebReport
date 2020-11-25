@@ -16,9 +16,14 @@ namespace Domain.Services
             _dbRepository = dbRepository;
         }
 
-        public List<OrderEntity> Get(DateFilter filter = default)
+        public List<OrderEntity> Get()
         {
-            return _dbRepository.Get<OrderEntity>(x => x.Date.Date >= filter.DateFrom && x.Date.Date <= filter.DateTo).OrderBy(x => x.Date).ToList();
+            return _dbRepository.Get<OrderEntity>().OrderBy(x => x.Date).ToList();
+        }
+
+        public List<OrderEntity> GetByFilter(IFilter<OrderEntity> filter)
+        {
+            return _dbRepository.Get(filter.GetSelector()).OrderBy(x => x.Date).ToList();
         }
 
         public void Set(EntityStates state, Guid id = default, int price = default, DateTime date = default)

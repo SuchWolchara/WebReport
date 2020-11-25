@@ -10,21 +10,21 @@
 </div>
 <div>
     <form method="get" asp-controller="Report" asp-action="GetOrdersByDateFilter">
-        @if (Model.Filter.DateFrom == DateTime.MinValue.Date)
+        @if (Model.DateFilter.DateFrom == DateTime.MinValue.Date)
         {
             <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
         }
         else
         {
-            <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.Filter.DateFrom.ToString("yyyy-MM-dd")></p>
+            <p>Date from: <input name="dateFrom" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.DateFilter.DateFrom.ToString("yyyy-MM-dd")></p>
         }
-        @if (Model.Filter.DateTo == DateTime.MaxValue.Date)
+        @if (Model.DateFilter.DateTo == DateTime.MaxValue.Date)
         {
             <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01"></p>
         }
         else
         {
-            <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.Filter.DateTo.ToString("yyyy-MM-dd")></p>
+            <p>Date to: <input name="dateTo" border="1" type="date" class="bg-dark" max="9999-12-31" min="0001-01-01" value=@Model.DateFilter.DateTo.ToString("yyyy-MM-dd")></p>
         }
         <p><input type="submit" value="Search" class="btn-dark" /></p>
     </form>
