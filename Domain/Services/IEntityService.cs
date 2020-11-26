@@ -6,9 +6,8 @@ namespace Domain.Services
 {
     public interface IEntityService<T> where T: class, IEntity
     {
-        List<T> GetAll();
+        List<T> Get();
         List<T> GetByFilter(IFilter<T> filter);
         void Set(EntityStates state, T entity);
-        void CreateTestData();
     }
 }

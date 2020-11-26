@@ -82,13 +82,6 @@ namespace Web.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult CreateTestData()
-        {
-            _orderService.CreateTestData();
-            return UpdateView();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

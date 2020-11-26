@@ -16,7 +16,7 @@ namespace Domain.Services
             _dbRepository = dbRepository;
         }
 
-        public List<OrderEntity> GetAll()
+        public List<OrderEntity> Get()
         {
             return _dbRepository.Get<OrderEntity>().OrderBy(x => x.Date).ToList();
         }
@@ -43,23 +43,6 @@ namespace Domain.Services
                     break;
             }
 
-            _dbRepository.SaveChanges();
-        }
-
-        public void CreateTestData()
-        {
-            var oldData = _dbRepository.GetAll<OrderEntity>();
-            var newData = new List<OrderEntity>();
-            for (int i = 0; i < 100; i++)
-            {
-                newData.Add(new OrderEntity()
-                {
-                    Price = (i + 1) * 1000,
-                    Date = DateTime.Today.AddDays(-(i * 2))
-                });
-            }
-            _dbRepository.RemoveRange(oldData);
-            _dbRepository.AddRange(newData);
             _dbRepository.SaveChanges();
         }
     }
